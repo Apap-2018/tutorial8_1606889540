@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Home</title>
+
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+
+    <div class="container-fluid">
+        <h2 th:text=" 'Hello ' + ${#httpServletRequest.remoteUser} + ' !'">Login as</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Tambah User Baru
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/user/addUser}" method="post">
+                            <div th:if="${Msg}==false">
+                                <span style="color: red">Password harus minimal 8 karakter dan terdiri dari angka dan huruf</span>
+                            </div>
+                            <div th:if="${Msg}==true">
+                                <span style="color: blue">User berhasil disimpan!</span>
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-sm-4">User Name</label>
+                                <input class="col-sm-8 form-control input-sm" type="text" name="username">
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-sm-4">Password</label>
+                                <input class="col-sm-8 form-control input-sm" type="password" name="password">
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-sm-4">Role</label>
+                                <input class="col-sm-8 form-control input-sm" type="text" name="role">
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Update Password
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/user/updatePassword}" method="post">
+                            <div th:if="${state}==1">
+                                <span style="color: blue">Password berhasil diubah!</span>
+                            </div>
+                            <div th:if="${state}==2">
+                                <span style="color: red">Password baru tidak sama dengan konfirmasi password baru Anda</span>
+                            </div>
+                            <div th:if="${state}==3">
+                                <span style="color: red">Password harus minimal 8 karakter dan terdiri dari angka dan huruf</span>
+                            </div>
+                            <div th:if="${state}==4">
+                                <span style="color: red">Password lama Anda salah</span>
+                            </div>
+                            <div th:if="${state}==5">
+                                <span style="color: red">User tidak ditemukan</span>
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-sm-4">Password Lama</label>
+                                <input id="oldPass" class="col-sm-8 form-control input-sm" type="password" name="oldPassword">
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-sm-4">Password Baru</label>
+                                <input id="newPass" class="col-sm-8 form-control input-sm" type="password" name="newPassword">
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-sm-4">Konfirmasi Password Baru</label>
+                                <input id="newPassConfirm" class="col-sm-8 form-control input-sm" type="password" name="newPasswordConf">
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                      Tambah Pilot
+                    </div>
+                    <div class="card-body">
+                     <p class="card-text">Fitur untuk menambah pilot.</p>
+                        <a class="btn btn-primary" th:href="@{/pilot/add}">Tambah</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Cari Pilot berdasarkan Nomor Lisensi
+                    </div>
+                    <form th:action="@{/pilot/view}" method="GET">
+                        <div class="card-body">
+                            <label for="licenseNumber">License Number:</label>
+                            <input type="text" name="licenseNumber" class="form-control"/>
+                            <button type="submit" class="btn btn-primary">Cari</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
